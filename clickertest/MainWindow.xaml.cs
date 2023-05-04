@@ -36,9 +36,15 @@ namespace clickertest
 
         private async void Button_Click(object sender, RoutedEventArgs e)
         {
-      
-            Clicks.Text = IncrementClicks().ToString();
-            
+            if (amountClicks < MAX_CLICKS) // Check if maximum number of clicks has been reached
+            {
+                Clicks.Text = IncrementClicks().ToString();
+
+                await Task.Run(() => {
+                    // Simulate some processing that takes time
+                    Thread.Sleep(50);
+                });
+            }
         }
     }
 }
