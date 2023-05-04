@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -20,23 +21,24 @@ namespace clickertest
     /// </summary>
     public partial class MainWindow : Window
     {
-        public int amountcliks { get; set; } = 0; 
+        private int amountClicks = 0; // Use private field instead of public property
+        private const int MAX_CLICKS = 100000; // Use constant for maximum number of clicks
+
         public MainWindow()
         {
             InitializeComponent();
         }
 
-
-        public int Klik(int i)
+        private int IncrementClicks()
         {
-            return amountcliks++; 
-
+            return Interlocked.Increment(ref amountClicks); // Use Interlocked to ensure thread-safe incrementation
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private async void Button_Click(object sender, RoutedEventArgs e)
         {
-            Clicks.Text = Klik(0).ToString();
-
+      
+            Clicks.Text = IncrementClicks().ToString();
+            
         }
     }
 }
